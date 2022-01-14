@@ -1,0 +1,26 @@
+# Control
+NOP # No Operation
+HLT # Halt
+
+JMP # Jump
+JEZ # Jump if 0
+# JNZ # Jump if not 0
+JIC # Jump if carry
+# JNC # Jump if not carry
+
+# Output
+MOT # Moves memory address into output register
+AOT # Moves A register into output register
+
+# Memory
+MLA # Load A Register from Memory
+VLA # Load A Register with value
+MLB # Load B Register from Memory
+VLB # Load B Register with value
+STA # Store value from A Register into memory
+
+# ALU
+ADD # Add A + B and store to ram
+SUB # Subtract A - B and store to ram
+INC # Increments A register by value
+DEC # Deincrements B register by value
