@@ -1,0 +1,9 @@
+start:
+  INC 1
+  AOT
+  JMP start
+
+end:
+  ADD X
+
+%Y 255
