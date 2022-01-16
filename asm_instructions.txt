@@ -1,12 +1,12 @@
 # Control
-NOP # No Operation
+# NOP # No Operation
 HLT # Halt
 
 JMP # Jump
-JEZ # Jump if 0
-# JNZ # Jump if not 0
+# JEZ # Jump if 0
+JNZ # Jump if not 0
 JIC # Jump if carry
-# JNC # Jump if not carry
+JNC # Jump if not carry
 
 # Output
 MOT # Moves memory address into output register

@@ -1,0 +1,20 @@
+%X -5
+%Y 255
+
+MLA X
+AOT ; -5
+
+INC 3
+AOT ; -2
+
+DEC 8
+AOT ; -10
+
+INC 15
+AOT ; 5
+
+MLB Y
+ADD X
+MOT X ; 4
+
+HLT

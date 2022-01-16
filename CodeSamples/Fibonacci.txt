@@ -1,0 +1,15 @@
+; Fib Seq (11 bytes + 2 bytes)
+reset:
+    VLA 0
+    STA X
+    MOT X
+    VLA 1
+    STA Y
+loop:
+    MLA Y
+    MLB X
+    MOT Y
+    STA X
+    ADD Y
+    JIC reset
+    JMP loop

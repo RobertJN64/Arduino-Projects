@@ -1,0 +1,19 @@
+; Multiply values of P and Q
+
+%P 3
+%Q 4
+%V 0
+
+loop:
+    MLA V ; add
+    MLB P
+    ADD V
+
+    MLA Q ; counter
+    DEC 1
+    STA Q
+    JNZ loop
+
+end:
+    MOT V
+    HLT

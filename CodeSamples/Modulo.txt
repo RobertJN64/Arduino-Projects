@@ -1,0 +1,17 @@
+; Remainder of P / Q
+
+%P 100
+%Q 15
+%V 0
+
+loop:
+    MLA P
+    MLB Q
+    SUB Z
+    JNC end ; borrow
+    SUB P
+    JMP loop
+
+end:
+    MOT P
+    HLT

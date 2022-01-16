@@ -1,4 +1,5 @@
 import tabulate
+from simulator import simulate
 
 def binary(num):
     b = bin(num)[2:]
@@ -13,9 +14,9 @@ class Instruction:
         self.cmd = cmd[0]
         if self.cmd not in cmds:
             raise Exception(f"CMD {self.cmd} not found.")
-        if len(cmd) > 1 and cmd[0] in ['NOP', 'HLT', 'MOT', 'AOT']:
+        if len(cmd) > 1 and cmd[0] in ['NOP', 'HLT', 'AOT']:
             raise Exception(f"CMD {self.cmd} should not have args.")
-        elif len(cmd) == 1 and cmd[0] not in ['NOP', 'HLT', 'MOT', 'AOT']:
+        elif len(cmd) == 1 and cmd[0] not in ['NOP', 'HLT', 'AOT']:
             raise Exception(f"CMD {self.cmd} needs args.")
         self.arg = cmd[1] if len(cmd) > 1 else 0
 
@@ -30,9 +31,9 @@ class Instruction:
                     self.arg = index
 
     def find_vars(self, varlist, valuelist, inccount):
-        if self.cmd in ['MLA', 'MLB', 'STA', 'ADD', 'SUB']:
+        if self.cmd in ['MLA', 'MLB', 'STA', 'ADD', 'SUB', 'MOT']:
             try:
-                int(self.arg)
+                self.arg = int(self.arg)
             except ValueError:
                 if self.arg not in varlist:
                     varlist.append(self.arg)
@@ -41,7 +42,7 @@ class Instruction:
 
         elif self.cmd in ['VLA', 'VLB', 'INC', 'DEC']:
             try:
-                int(self.arg)
+                self.arg = int(self.arg)
             except ValueError:
                 raise Exception(f"CMD {self.cmd} should have numerical arg.")
             assert int(self.arg) < 16, "Numerical arg must be 15 or less"
@@ -64,8 +65,8 @@ def main():
                 else:
                     cmds.append(cmd)
 
-    #fname = input("File Name: ")
-    fname = 'CPU_Test'
+    fname = input("File Name: ")
+    #fname = 'CPU_Test'
     with open('CodeSamples/' + fname + '.txt') as f:
         lines = [line.split(';')[0].strip() for line in f.readlines() if line.split(';')[0].strip() != ""]
 
@@ -76,8 +77,15 @@ def main():
     for line in lines:
         if '%' in line:
             varname, value = line.replace('%', '').split()
+            value = int(value)
+
+
+            if value < 0:
+                value = value%256
+
             var_list.append(varname)
             var_value_list.append(value)
+            assert value < 256, "Variables must not be higher than 255"
         elif ':' not in line:
             instructions.append(Instruction(line, labels, cmds))
             labels = []
@@ -92,22 +100,25 @@ def main():
 
     assert len(var_list) + len(instructions) <= 16, "Too many variables or instructions."
 
-    print()
     print("Assembled Program:")
     tabledata = []
     index = 0
     for index, inc in enumerate(instructions):
-        tabledata.append([hex(index), inc.cmd + ' (' + hex(inc.cmdnum) + ')', int(inc.arg),
-                          binary(index) + ' | ' + binary(inc.cmdnum) + ' ' + binary(int(inc.arg))])
+        tabledata.append([hex(index), inc.cmd + ' (' + hex(inc.cmdnum) + ')', inc.arg,
+                          binary(index) + ' | ' + binary(inc.cmdnum) + ' ' + binary(inc.arg)])
     print(tabulate.tabulate(tabledata, headers=['Adress', 'Command', 'Args', 'Memory']))
 
     print("\nVariables:")
     tabledata = []
     for j, (var, value) in enumerate(zip(var_list, var_value_list)):
         j = index + j + 1
-        tabledata.append([hex(j), var, value, binary(j) + ' | ' + binary(int(int(value)/16)) +
-                          ' ' + binary(int(int(value)%16))])
+        tabledata.append([hex(j), var, value, binary(j) + ' | ' + binary(int(value/16)) +
+                          ' ' + binary(value%16)])
     print(tabulate.tabulate(tabledata, headers=['Adress', 'Command', 'Args', 'Memory']))
+
+    print()
+    if input("Run simulation: ") == 'y':
+        simulate(instructions, var_value_list)
 
 if __name__ == '__main__':
     main()
