@@ -1,0 +1,14 @@
+ ; Print 1, 2, 4, 8, etc.
+
+start:
+    VLA 1
+    STA X
+    MOT X
+
+loop:
+    MLA X
+    MLB X
+    ADD X
+    MOT X
+    JIC start
+    JMP loop
