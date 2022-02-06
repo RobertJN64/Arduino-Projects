@@ -52,8 +52,8 @@ instruction_groups = {
     #ALU
     'ADD': ['MI CO', 'RO II CE', 'IO MI', 'EO RI FI'], #Add A + B and store to ram
     'SUB': ['MI CO', 'RO II CE', 'IO MI', 'EO RI SU FI'], #Subtract A - B and store to ram
-    'INC': ['MI CO', 'RO II CE', 'IO MI', 'RO BI', 'EO AI FI'], #Increments A register by value
-    'DEC': ['MI CO', 'RO II CE', 'IO MI', 'RO BI', 'EO AI FI SU'] #Deincrements B register by value
+    'INC': ['MI CO', 'RO II CE', 'IO BI', 'EO AI FI'], #Increments A register by value
+    'DEC': ['MI CO', 'RO II CE', 'IO BI', 'EO AI FI SU'] #Deincrements B register by value
 }
 
 def validate_instructions():

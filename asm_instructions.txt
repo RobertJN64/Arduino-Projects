@@ -3,7 +3,7 @@
 HLT # Halt
 
 JMP # Jump
-# JEZ # Jump if 0
+# JEZ # Jump if equal 0
 JNZ # Jump if not 0
 JIC # Jump if carry
 JNC # Jump if not carry
