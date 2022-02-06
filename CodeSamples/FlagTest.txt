@@ -1,0 +1,7 @@
+%A 128
+%B 128
+
+MLA A
+MLB B
+ADD C
+HLT
